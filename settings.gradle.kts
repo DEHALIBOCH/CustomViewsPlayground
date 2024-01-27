@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "CustomViewsPlayground"
 include(":app")
 include(":buildScript")
+include(":core")
