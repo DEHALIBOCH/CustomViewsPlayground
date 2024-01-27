@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "kz.dehaliboch.customViewsPlayground"
-        minSdk = 24
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -44,6 +44,7 @@ dependencies {
 
     implementation(project(":buildScript"))
     implementation(project(":core"))
+    implementation(project(":customViews"))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

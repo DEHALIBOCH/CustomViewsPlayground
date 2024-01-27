@@ -17,3 +17,4 @@ rootProject.name = "CustomViewsPlayground"
 include(":app")
 include(":buildScript")
 include(":core")
+include(":customViews")
