@@ -21,7 +21,12 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>(R.layout.fragment_blank
         val linearLayout = LinearLayout(requireContext())
         linearLayout.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         val ownCustomView = OwnCustomView(requireContext(), null)
-        ownCustomView.setFillColor(Color.GREEN)
+        ownCustomView.apply {
+            topLeftColor = Color.MAGENTA
+            topRightColor = Color.GREEN
+            bottomLeftColor = Color.YELLOW
+            bottomRightColor = Color.BLUE
+        }
         linearLayout.addView(ownCustomView)
         return linearLayout
     }
