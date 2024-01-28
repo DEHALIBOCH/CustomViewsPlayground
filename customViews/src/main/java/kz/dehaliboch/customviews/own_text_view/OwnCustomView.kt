@@ -3,7 +3,9 @@ package kz.dehaliboch.customviews.own_text_view
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.LinearGradient
 import android.graphics.Paint
+import android.graphics.Shader
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -13,14 +15,15 @@ import kotlin.math.min
 class OwnCustomView(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
 
     private val backgroundPaint: Paint
-    private var fillColor: Int = Color.RED
+    private var defaultFillColor: Int = Color.RED
+    private val secondaryFillColor: Int = Color.MAGENTA
     private val DEFAULT_SIZE = 450
 
     init {
         attributeSet?.let { attrs ->
             val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.OwnCustomView, 0, 0)
             try {
-                fillColor = typedArray.getColor(R.styleable.OwnCustomView_fillColor, Color.RED)
+                defaultFillColor = typedArray.getColor(R.styleable.OwnCustomView_fillColor, Color.RED)
             } catch (_: Exception) {
 
             } finally {
@@ -29,7 +32,7 @@ class OwnCustomView(context: Context, attributeSet: AttributeSet?) : View(contex
         }
 
         backgroundPaint = Paint()
-        backgroundPaint.color = fillColor
+        backgroundPaint.color = defaultFillColor
         backgroundPaint.style = Paint.Style.FILL
     }
 
@@ -52,13 +55,13 @@ class OwnCustomView(context: Context, attributeSet: AttributeSet?) : View(contex
         super.onLayout(changed, left, top, right, bottom)
     }
 
-    /**
-     *  Вызывается после onLayout для отрисовки View
-     */
-    override fun onDraw(canvas: Canvas) {
-        canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backgroundPaint)
-        super.onDraw(canvas)
-    }
+//    /**
+//     *  Вызывается после onLayout для отрисовки View
+//     */
+//    override fun onDraw(canvas: Canvas) {
+//        canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backgroundPaint)
+//        super.onDraw(canvas)
+//    }
 
     /**
      *  Метод для определения размера View в методе onMeasure.
@@ -94,5 +97,41 @@ class OwnCustomView(context: Context, attributeSet: AttributeSet?) : View(contex
 
     fun setFillColor(fillColor: Int) {
         backgroundPaint.color = fillColor
+    }
+
+    private var needsUpdate = false
+    var topLeftColor = defaultFillColor
+        set(value) {
+            field = value
+            needsUpdate = true
+        }
+    var bottomLeftColor = secondaryFillColor
+        set(value) {
+            field = value
+            needsUpdate = true
+        }
+    var topRightColor = secondaryFillColor
+        set(value) {
+            field = value
+            needsUpdate = true
+        }
+    var bottomRightColor = defaultFillColor
+        set(value) {
+            field = value
+            needsUpdate = true
+        }
+
+    /**
+     *  Вызывается после onLayout для отрисовки View
+     */
+    override fun onDraw(canvas: Canvas) {
+        if (needsUpdate) {
+            val colors = intArrayOf(topLeftColor, topRightColor, bottomLeftColor, bottomRightColor)
+            val linearGradient = LinearGradient(0F, 0F, width.toFloat(), height.toFloat(), colors, null, Shader.TileMode.CLAMP)
+            backgroundPaint.shader = linearGradient
+            needsUpdate = false
+        }
+        canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backgroundPaint)
+        super.onDraw(canvas)
     }
 }
