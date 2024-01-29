@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import kz.dehaliboch.core.ui.base.BaseFragment
 import kz.dehaliboch.customViewsPlayground.databinding.FragmentBlankBinding
-import kz.dehaliboch.customviews.own_text_view.OwnCustomView
+import kz.dehaliboch.customviews.OwnCustomView
+import java.lang.Math.random
+import kotlin.random.Random
 
 class BlankFragment : BaseFragment<FragmentBlankBinding>(R.layout.fragment_blank) {
 
@@ -16,6 +18,7 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>(R.layout.fragment_blank
         return FragmentBlankBinding.inflate(layoutInflater, container, false)
     }
 
+    /*
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        return super.onCreateView(inflater, container, savedInstanceState)
         val linearLayout = LinearLayout(requireContext())
@@ -30,5 +33,21 @@ class BlankFragment : BaseFragment<FragmentBlankBinding>(R.layout.fragment_blank
         linearLayout.addView(ownCustomView)
         return linearLayout
     }
+    */
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        for (i in 0 until 50) {
+            val ownCustomView = OwnCustomView(requireContext())
+//            val width = Random.nextInt(200) + 50
+//            val height = Random.nextInt(100) + 100
+            val width =  100
+            val height = 100
+            ownCustomView.layoutParams = ViewGroup.LayoutParams(width, height)
+            ownCustomView.setPadding(5, 5, 5, 5)
+
+            binding.customLayout.addView(ownCustomView)
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package kz.dehaliboch.customviews.own_text_view
+package kz.dehaliboch.customviews
 
 import android.content.Context
 import android.graphics.Canvas
