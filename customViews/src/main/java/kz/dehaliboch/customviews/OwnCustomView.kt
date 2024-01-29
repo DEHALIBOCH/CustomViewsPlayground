@@ -1,4 +1,4 @@
-package kz.dehaliboch.customviews.own_text_view
+package kz.dehaliboch.customviews
 
 import android.content.Context
 import android.graphics.Canvas
@@ -9,15 +9,22 @@ import android.graphics.Shader
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import kz.dehaliboch.customviews.R
 import kotlin.math.min
 
-class OwnCustomView(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
+class OwnCustomView(context: Context, attributeSet: AttributeSet? = null) : View(context, attributeSet) {
 
     private val backgroundPaint: Paint
+    private val textPaint: Paint
     private var defaultFillColor: Int = Color.RED
     private val secondaryFillColor: Int = Color.MAGENTA
     private val DEFAULT_SIZE = 450
+    private var textX = 0F
+    private var textY = 0F
+    private var ownNumber: Int
+
+    companion object {
+        private var viewNumber = 0
+    }
 
     init {
         attributeSet?.let { attrs ->
@@ -31,6 +38,10 @@ class OwnCustomView(context: Context, attributeSet: AttributeSet?) : View(contex
             }
         }
 
+        ownNumber = ++viewNumber
+        textPaint = Paint()
+        textPaint.color = Color.BLACK
+        textPaint.textSize = 30F
         backgroundPaint = Paint()
         backgroundPaint.color = defaultFillColor
         backgroundPaint.style = Paint.Style.FILL
@@ -45,6 +56,8 @@ class OwnCustomView(context: Context, attributeSet: AttributeSet?) : View(contex
         Log.d("ON_MEASURE", "height spec" + MeasureSpec.toString(heightMeasureSpec))
         val width = getMeasurementSize(widthMeasureSpec, DEFAULT_SIZE)
         val height = getMeasurementSize(heightMeasureSpec, DEFAULT_SIZE)
+        textX = (width - textPaint.measureText(ownNumber.toString())) / 2
+        textY = height.toFloat() / 2
         setMeasuredDimension(width, height)
     }
 
@@ -132,6 +145,7 @@ class OwnCustomView(context: Context, attributeSet: AttributeSet?) : View(contex
             needsUpdate = false
         }
         canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), backgroundPaint)
+        canvas.drawText(ownNumber.toString(), textX, textY, textPaint)
         super.onDraw(canvas)
     }
 }
